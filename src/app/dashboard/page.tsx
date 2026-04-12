@@ -35,9 +35,11 @@ interface DashboardData {
 export default function DashboardPage() {
   const { user, token, isLoading, logout } = useAuth();
   const router = useRouter();
+
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -45,16 +47,19 @@ export default function DashboardPage() {
       router.push('/login');
       return;
     }
+
     if (!token) return;
 
-    let cancelled = false;
+    let isCancelled = false;
+
     api.getDashboard(token).then((result) => {
-      if (!cancelled && result.data) {
+      if (!isCancelled && result.data) {
         setDashboardData(result.data as DashboardData);
       }
     });
+
     return () => {
-      cancelled = true;
+      isCancelled = true;
     };
   }, [user, token, isLoading, router]);
 
@@ -74,7 +79,6 @@ export default function DashboardPage() {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
-
       <main className="flex-1 overflow-y-auto">
         {/* Top Bar */}
         <header className="border-b border-gray-100 bg-white px-6 py-4">
@@ -101,7 +105,6 @@ export default function DashboardPage() {
             </div>
           </div>
         </header>
-
         <div className="p-6">
           {/* Hero Banner */}
           <div className="bg-dark-navy mb-6 overflow-hidden rounded-xl p-8 text-white">
@@ -113,7 +116,6 @@ export default function DashboardPage() {
               <span className="h-2 w-2 rounded-full bg-white/40"></span>
             </div>
           </div>
-
           {/* Overview */}
           <div className="mb-6 flex items-center justify-between">
             <h3 className="text-lg font-bold text-gray-900">Overview</h3>
@@ -123,11 +125,9 @@ export default function DashboardPage() {
               <option>This Year</option>
             </select>
           </div>
-
           {dashboardData && (
             <>
               <OverviewSection overview={dashboardData.overview} />
-
               {/* Recent Shipment Section */}
               <div className="mt-8 mb-6 flex items-center justify-between">
                 <h3 className="text-lg font-bold text-gray-900">
@@ -137,7 +137,6 @@ export default function DashboardPage() {
                   See All
                 </button>
               </div>
-
               <GrowthChart data={dashboardData.companyGrowth} />
               <ShipmentList shipments={dashboardData.recentShipments} />
             </>

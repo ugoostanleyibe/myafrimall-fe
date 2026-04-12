@@ -27,7 +27,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  const { login } = useAuth();
+  const { user, login } = useAuth();
 
   const router = useRouter();
 
@@ -38,6 +38,11 @@ export default function RegisterPage() {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterSchema)
   });
+
+  if (user) {
+    router.replace('/dashboard');
+    return null;
+  }
 
   const onSubmit = async (data: RegisterFormData) => {
     setServerError('');

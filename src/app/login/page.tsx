@@ -23,7 +23,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  const { login } = useAuth();
+  const { user, login } = useAuth();
 
   const router = useRouter();
 
@@ -34,6 +34,11 @@ export default function LoginPage() {
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema)
   });
+
+  if (user) {
+    router.replace('/dashboard');
+    return null;
+  }
 
   const onSubmit = async (data: LoginFormData) => {
     setServerError('');
