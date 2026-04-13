@@ -63,30 +63,25 @@ export default function LoginPage() {
       subheading="Monitor your shipments from Nigeria! Enjoy swift delivery and seamless customs processing"
     >
       <div className="mx-auto w-full max-w-md">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
+        <h1 className="text-matte-black mb-2 text-[32px] font-bold">
           Sign in to your account
         </h1>
-        <p className="mb-8 text-sm leading-relaxed text-gray-500">
+        <p className="text-manhattan-gray mb-8 text-sm leading-relaxed">
           Log in to MyAfriMall to enjoy seamless shipping to over 300 countries
           right from Nigeria.. Don&apos;t have an account yet?{' '}
-          <Link href="/register" className="text-primary font-medium underline">
+          <Link href="/register" className="text-primary font-bold underline">
             Sign Up
           </Link>
         </p>
-
         {serverError && (
           <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
             {serverError}
           </div>
         )}
-
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
           {/* Email */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="text-matte-black">
               Email
             </label>
             <input
@@ -95,8 +90,9 @@ export default function LoginPage() {
               {...register('email')}
               placeholder="user@example.com"
               className={cls(
-                'rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900',
-                'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
+                'focus:border-primary placeholder:text-new-gray',
+                'placeholder:font-light focus:outline-none',
                 errors.email && 'border-red-400'
               )}
             />
@@ -104,24 +100,21 @@ export default function LoginPage() {
               <p className="text-xs text-red-500">{errors.email.message}</p>
             )}
           </div>
-
           {/* Password */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="text-matte-black">
               Password
             </label>
             <div className="relative">
               <input
                 id="password"
-                type={isPasswordVisible ? 'text' : 'password'}
                 {...register('password')}
+                type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="Enter Password"
                 className={cls(
-                  'w-full rounded-lg border border-gray-200 px-4 py-3 pr-12 text-sm text-gray-900',
-                  'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                  'text-manhattan-gray w-full rounded-lg border border-gray-200',
+                  'focus:border-primary placeholder:text-new-gray px-4 py-3 pr-12',
+                  'placeholder:font-light focus:outline-none',
                   errors.password && 'border-red-400'
                 )}
               />
@@ -133,8 +126,8 @@ export default function LoginPage() {
                 <Image
                   src={
                     isPasswordVisible
-                      ? '/graphics/eye-open.svg'
-                      : '/graphics/eye-closed.svg'
+                      ? '/graphics/eye-closed.svg'
+                      : '/graphics/eye-open.svg'
                   }
                   alt={isPasswordVisible ? 'Hide password' : 'Show password'}
                   height={20}
@@ -144,7 +137,7 @@ export default function LoginPage() {
             </div>
             <Link
               href="/forgot-password"
-              className="text-primary mt-1 w-fit text-sm hover:underline"
+              className="text-primary mt-4 w-fit text-sm font-bold underline"
             >
               Forgot Password?
             </Link>
@@ -152,7 +145,6 @@ export default function LoginPage() {
               <p className="text-xs text-red-500">{errors.password.message}</p>
             )}
           </div>
-
           {/* Submit */}
           <button
             type="submit"
@@ -160,22 +152,11 @@ export default function LoginPage() {
             className="bg-primary hover:bg-primary-hover mt-2 flex h-12 w-fit items-center justify-center rounded-lg px-10 font-medium text-white transition-colors disabled:opacity-60"
           >
             {isSubmitting ? (
-              <PulseLoader color="white" size={10} margin={4} />
+              <PulseLoader color="white" size={9} margin={2} />
             ) : (
               'Login'
             )}
           </button>
-
-          <p className="text-xs text-gray-400">
-            By clicking on create account you agree to our{' '}
-            <Link href="/privacy" className="text-gray-600 underline">
-              privacy policy
-            </Link>{' '}
-            and{' '}
-            <Link href="/terms" className="text-gray-600 underline">
-              terms of use
-            </Link>
-          </p>
         </form>
       </div>
     </AuthLayout>

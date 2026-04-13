@@ -22,7 +22,7 @@ export const AuthLayout = ({
         {children}
       </div>
       {/* Right side - Decorative */}
-      <div className="relative hidden w-1/2 overflow-hidden bg-primary md:flex">
+      <div className="bg-primary relative hidden w-1/2 overflow-hidden md:flex">
         {/* World map dots pattern */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Image
@@ -35,10 +35,10 @@ export const AuthLayout = ({
         </div>
         {/* Text at bottom-left */}
         <div className="relative z-10 mt-auto px-10 pb-14 lg:px-14">
-          <h2 className="mb-3 text-[28px] font-bold leading-tight text-white">
+          <h2 className="mb-4 max-w-102.5 text-2xl leading-tight font-semibold text-white">
             {heading}
           </h2>
-          <p className="max-w-md text-[14px] leading-relaxed text-white/70">
+          <p className="text-rice-flower max-w-145 text-[18px] leading-relaxed">
             {subheading}
           </p>
         </div>

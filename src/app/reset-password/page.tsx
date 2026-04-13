@@ -139,8 +139,8 @@ function ResetPasswordForm() {
               <Image
                 src={
                   isPasswordVisible
-                    ? '/graphics/eye-open.svg'
-                    : '/graphics/eye-closed.svg'
+                    ? '/graphics/eye-closed.svg'
+                    : '/graphics/eye-open.svg'
                 }
                 alt={isPasswordVisible ? 'Hide password' : 'Show password'}
                 width={20}
