@@ -149,12 +149,12 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-primary hover:bg-primary-hover mt-2 flex h-12 w-fit items-center justify-center rounded-lg px-10 font-medium text-white transition-colors disabled:opacity-60"
+            className="bg-primary outline-primary hover:bg-purple-navy mt-2 flex h-13 w-25 items-center justify-center rounded-lg bg-linear-to-b from-white/20 to-white/0 text-sm font-semibold text-white shadow-[0px_1px_3px_-0.5px_rgba(0,0,0,0.06)] outline-1 transition-colors disabled:opacity-60"
           >
             {isSubmitting ? (
-              <PulseLoader color="white" size={9} margin={2} />
+              <PulseLoader color="white" size={10} margin={2} />
             ) : (
-              'Login'
+              'Log in'
             )}
           </button>
         </form>

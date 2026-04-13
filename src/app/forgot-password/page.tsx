@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-primary hover:bg-primary-hover mt-2 flex h-12 items-center justify-center rounded-lg font-medium text-white transition-colors disabled:opacity-60"
+              className="bg-primary hover:bg-purple-navy mt-2 flex h-12 items-center justify-center rounded-lg font-medium text-white transition-colors disabled:opacity-60"
             >
               {isSubmitting ? (
                 <PulseLoader color="white" size={10} margin={4} />

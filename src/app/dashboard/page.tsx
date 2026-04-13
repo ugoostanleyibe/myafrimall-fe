@@ -107,7 +107,7 @@ export default function DashboardPage() {
         </header>
         <div className="p-6">
           {/* Hero Banner */}
-          <div className="bg-dark-navy relative mb-6 overflow-hidden rounded-xl p-8 text-white md:min-h-45">
+          <div className="bg-dark-gnmetal-grey relative mb-6 overflow-hidden rounded-xl p-8 text-white md:min-h-45">
             <div className="relative z-10">
               <h2 className="text-2xl leading-tight font-bold md:text-3xl">
                 KEEP UP WITH YOUR

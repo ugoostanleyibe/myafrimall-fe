@@ -91,7 +91,7 @@ function ResetPasswordForm() {
         </div>
         <Link
           href="/login"
-          className="bg-primary hover:bg-primary-hover inline-flex h-12 items-center justify-center rounded-lg px-10 font-medium text-white transition-colors"
+          className="bg-primary hover:bg-purple-navy inline-flex h-12 items-center justify-center rounded-lg px-10 font-medium text-white transition-colors"
         >
           Go to Login
         </Link>
@@ -198,7 +198,7 @@ function ResetPasswordForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-primary hover:bg-primary-hover mt-2 flex h-12 items-center justify-center rounded-lg font-medium text-white transition-colors disabled:opacity-60"
+          className="bg-primary hover:bg-purple-navy mt-2 flex h-12 items-center justify-center rounded-lg font-medium text-white transition-colors disabled:opacity-60"
         >
           {isSubmitting ? (
             <PulseLoader color="white" size={10} margin={4} />

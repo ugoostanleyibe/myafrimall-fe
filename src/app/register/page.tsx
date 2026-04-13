@@ -67,30 +67,26 @@ export default function RegisterPage() {
       subheading="Access global markets with our quick shipping from Nigeria! Fast delivery and easy customs to 300+ countries."
     >
       <div className="mx-auto w-full max-w-md">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
+        <h1 className="text-matte-black mb-2 text-[32px] font-bold">
           Create an account
         </h1>
-        <p className="mb-8 text-sm leading-relaxed text-gray-500">
-          Sign up for MyAfriMall and gain unlimited access to shipping to over
+        <p className="text-manhattan-gray mb-8 text-sm leading-relaxed">
+          Sign up for Myafrimall and gain unlimited access to shipping to over
           300 countries from Nigeria. Do you already have an account?{' '}
-          <Link href="/login" className="text-primary font-medium underline">
+          <Link href="/login" className="text-primary font-bold underline">
             Log in
           </Link>
         </p>
-
         {serverError && (
           <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
             {serverError}
           </div>
         )}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
           {/* First name & Last name */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="firstName"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="firstName" className="text-matte-black">
                 First name
               </label>
               <input
@@ -98,8 +94,9 @@ export default function RegisterPage() {
                 {...register('firstName')}
                 placeholder="John"
                 className={cls(
-                  'rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900',
-                  'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                  'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
+                  'focus:border-primary placeholder:text-new-gray',
+                  'placeholder:font-light focus:outline-none',
                   errors.firstName && 'border-red-400'
                 )}
               />
@@ -110,10 +107,7 @@ export default function RegisterPage() {
               )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="lastName"
-                className="text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="lastName" className="text-matte-black">
                 Last name
               </label>
               <input
@@ -121,8 +115,9 @@ export default function RegisterPage() {
                 {...register('lastName')}
                 placeholder="Doe"
                 className={cls(
-                  'rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900',
-                  'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                  'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
+                  'focus:border-primary placeholder:text-new-gray',
+                  'placeholder:font-light focus:outline-none',
                   errors.lastName && 'border-red-400'
                 )}
               />
@@ -133,13 +128,9 @@ export default function RegisterPage() {
               )}
             </div>
           </div>
-
           {/* Email */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="email" className="text-matte-black">
               Email
             </label>
             <input
@@ -148,8 +139,9 @@ export default function RegisterPage() {
               {...register('email')}
               placeholder="user@example.com"
               className={cls(
-                'rounded-lg border border-gray-200 px-4 py-3 text-sm text-gray-900',
-                'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
+                'focus:border-primary placeholder:text-new-gray',
+                'placeholder:font-light focus:outline-none',
                 errors.email && 'border-red-400'
               )}
             />
@@ -157,17 +149,13 @@ export default function RegisterPage() {
               <p className="text-xs text-red-500">{errors.email.message}</p>
             )}
           </div>
-
           {/* Phone Number */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="phone"
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="phone" className="text-matte-black">
               Phone Number
             </label>
             <div className="flex">
-              <span className="inline-flex items-center rounded-l-lg border border-r-0 border-gray-200 bg-gray-50 px-3 text-sm text-gray-500">
+              <span className="text-manhattan-gray inline-flex items-center rounded-l-lg border border-r-0 border-gray-200 bg-gray-50 px-3">
                 +234
               </span>
               <input
@@ -176,8 +164,9 @@ export default function RegisterPage() {
                 {...register('phone')}
                 placeholder="8012345678"
                 className={cls(
-                  'w-full rounded-r-lg border border-gray-200 px-4 py-3 text-sm text-gray-900',
-                  'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                  'text-manhattan-gray w-full rounded-r-lg border border-gray-200 px-4 py-3',
+                  'focus:border-primary placeholder:text-new-gray',
+                  'placeholder:font-light focus:outline-none',
                   errors.phone && 'border-red-400'
                 )}
               />
@@ -186,13 +175,9 @@ export default function RegisterPage() {
               <p className="text-xs text-red-500">{errors.phone.message}</p>
             )}
           </div>
-
           {/* Password */}
           <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-gray-700"
-            >
+            <label htmlFor="password" className="text-matte-black">
               Password
             </label>
             <div className="relative">
@@ -202,8 +187,9 @@ export default function RegisterPage() {
                 {...register('password')}
                 placeholder="Enter Password"
                 className={cls(
-                  'w-full rounded-lg border border-gray-200 px-4 py-3 pr-12 text-sm text-gray-900',
-                  'focus:border-primary placeholder:text-gray-400 focus:outline-none',
+                  'text-manhattan-gray w-full rounded-lg border border-gray-200',
+                  'focus:border-primary placeholder:text-new-gray px-4 py-3 pr-12',
+                  'placeholder:font-light focus:outline-none',
                   errors.password && 'border-red-400'
                 )}
               />
@@ -228,27 +214,35 @@ export default function RegisterPage() {
               <p className="text-xs text-red-500">{errors.password.message}</p>
             )}
           </div>
-
           {/* Submit */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-primary hover:bg-primary-hover mt-2 flex h-12 items-center justify-center rounded-lg font-medium text-white transition-colors disabled:opacity-60"
+            className="bg-primary outline-primary hover:bg-purple-navy mt-2 flex h-13 w-42.5 items-center justify-center rounded-lg bg-linear-to-b from-white/20 to-white/0 text-sm font-semibold text-white shadow-[0px_1px_3px_-0.5px_rgba(0,0,0,0.06)] outline-1 transition-colors disabled:opacity-60"
           >
             {isSubmitting ? (
-              <PulseLoader color="white" size={10} margin={4} />
+              <PulseLoader color="white" size={12} margin={4} />
             ) : (
               'Create account'
             )}
           </button>
-
-          <p className="text-center text-xs text-gray-400">
+          <p className="text-manhattan-gray text-sm">
             By clicking on create account you agree to our{' '}
-            <Link href="#" className="text-gray-600 underline">
+            <Link
+              rel="noopener noreferrer"
+              href="https://en.wikipedia.org/wiki/Privacy_policy"
+              className="text-primary font-bold underline"
+              target="_blank"
+            >
               privacy policy
             </Link>{' '}
             and{' '}
-            <Link href="#" className="text-gray-600 underline">
+            <Link
+              rel="noopener noreferrer"
+              href="https://en.wikipedia.org/wiki/Terms_of_service"
+              className="text-primary font-bold underline"
+              target="_blank"
+            >
               terms of use
             </Link>
           </p>
