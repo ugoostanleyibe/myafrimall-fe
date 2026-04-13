@@ -22,11 +22,11 @@ function getStoredUser(): User | null {
 }
 
 interface AuthContextType {
-  user: User | null;
-  token: string | null;
-  isLoading: boolean;
   login: (token: string, user: User) => void;
+  token: string | null;
   logout: () => void;
+  isLoading: boolean;
+  user: User | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -62,8 +62,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+
   return context;
 }
