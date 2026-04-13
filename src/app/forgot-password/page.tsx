@@ -7,7 +7,7 @@ import { cls } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PulseLoader } from 'react-spinners';
 import { z } from 'zod';
@@ -33,10 +33,11 @@ export default function ForgotPasswordPage() {
     resolver: zodResolver(ForgotPasswordSchema)
   });
 
-  if (user) {
-    router.replace('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (user) router.replace('/dashboard');
+  }, [user, router]);
+
+  if (user) return null;
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
     setServerError('');
