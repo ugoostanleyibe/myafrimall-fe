@@ -107,10 +107,127 @@ export default function DashboardPage() {
         </header>
         <div className="p-6">
           {/* Hero Banner */}
-          <div className="bg-dark-navy mb-6 overflow-hidden rounded-xl p-8 text-white">
-            <h2 className="text-2xl font-bold">KEEP UP WITH YOUR</h2>
-            <h2 className="text-2xl font-bold">BUSINESS NEEDS</h2>
-            <div className="mt-4 flex justify-center gap-2">
+          <div className="bg-dark-navy relative mb-6 overflow-hidden rounded-xl p-8 text-white md:min-h-45">
+            <div className="relative z-10">
+              <h2 className="text-2xl leading-tight font-bold md:text-3xl">
+                KEEP UP WITH YOUR
+                <br />
+                BUSINESS NEEDS
+              </h2>
+            </div>
+            {/* Decorative packages illustration */}
+            <div className="absolute top-2 right-4 h-32 w-32 opacity-90 md:top-0 md:right-8 md:h-40 md:w-40">
+              <svg
+                viewBox="0 0 120 120"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-full w-full"
+              >
+                {/* Globe */}
+                <circle cx="65" cy="45" r="30" fill="#C4A35A" opacity="0.3" />
+                <ellipse
+                  cx="65"
+                  cy="45"
+                  rx="30"
+                  ry="30"
+                  stroke="#C4A35A"
+                  strokeWidth="1"
+                  opacity="0.5"
+                />
+                <path
+                  d="M65 15 C55 25, 55 65, 65 75"
+                  stroke="#C4A35A"
+                  strokeWidth="0.8"
+                  opacity="0.4"
+                />
+                <path
+                  d="M65 15 C75 25, 75 65, 65 75"
+                  stroke="#C4A35A"
+                  strokeWidth="0.8"
+                  opacity="0.4"
+                />
+                <line
+                  x1="35"
+                  y1="45"
+                  x2="95"
+                  y2="45"
+                  stroke="#C4A35A"
+                  strokeWidth="0.8"
+                  opacity="0.4"
+                />
+                <line
+                  x1="38"
+                  y1="32"
+                  x2="92"
+                  y2="32"
+                  stroke="#C4A35A"
+                  strokeWidth="0.8"
+                  opacity="0.3"
+                />
+                <line
+                  x1="38"
+                  y1="58"
+                  x2="92"
+                  y2="58"
+                  stroke="#C4A35A"
+                  strokeWidth="0.8"
+                  opacity="0.3"
+                />
+                {/* Boxes */}
+                <rect
+                  x="45"
+                  y="65"
+                  width="25"
+                  height="22"
+                  rx="2"
+                  fill="#C4A35A"
+                  opacity="0.8"
+                />
+                <rect
+                  x="48"
+                  y="68"
+                  width="19"
+                  height="3"
+                  rx="1"
+                  fill="#D4B36A"
+                />
+                <rect
+                  x="70"
+                  y="58"
+                  width="28"
+                  height="25"
+                  rx="2"
+                  fill="#D4B36A"
+                  opacity="0.9"
+                />
+                <rect
+                  x="73"
+                  y="61"
+                  width="22"
+                  height="3"
+                  rx="1"
+                  fill="#E4C37A"
+                />
+                <rect
+                  x="55"
+                  y="50"
+                  width="20"
+                  height="18"
+                  rx="2"
+                  fill="#B4934A"
+                  opacity="0.7"
+                />
+                <rect
+                  x="58"
+                  y="53"
+                  width="14"
+                  height="3"
+                  rx="1"
+                  fill="#C4A35A"
+                />
+              </svg>
+            </div>
+            <div className="relative z-10 mt-6 flex justify-center gap-2">
               <span className="h-2 w-2 rounded-full bg-white/40"></span>
               <span className="h-2 w-2 rounded-full bg-white"></span>
               <span className="h-2 w-2 rounded-full bg-white/40"></span>

@@ -24,7 +24,7 @@ const RegisterSchema = z.object({
 type RegisterFormData = z.infer<typeof RegisterSchema>;
 
 export default function RegisterPage() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [serverError, setServerError] = useState('');
 
   const { user, login } = useAuth();
@@ -70,11 +70,11 @@ export default function RegisterPage() {
         <h1 className="mb-2 text-3xl font-bold text-gray-900">
           Create an account
         </h1>
-        <p className="mb-8 text-gray-500">
+        <p className="mb-8 text-sm leading-relaxed text-gray-500">
           Sign up for MyAfriMall and gain unlimited access to shipping to over
           300 countries from Nigeria. Do you already have an account?{' '}
           <Link href="/login" className="text-primary font-medium underline">
-            Login
+            Log in
           </Link>
         </p>
 
@@ -83,7 +83,6 @@ export default function RegisterPage() {
             {serverError}
           </div>
         )}
-
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           {/* First name & Last name */}
           <div className="grid grid-cols-2 gap-4">
@@ -199,7 +198,7 @@ export default function RegisterPage() {
             <div className="relative">
               <input
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type={isPasswordVisible ? 'text' : 'password'}
                 {...register('password')}
                 placeholder="Enter Password"
                 className={cls(
@@ -210,18 +209,18 @@ export default function RegisterPage() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                 className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
                 <Image
                   src={
-                    showPassword
+                    isPasswordVisible
                       ? '/graphics/eye-open.svg'
                       : '/graphics/eye-closed.svg'
                   }
-                  alt={showPassword ? 'Hide password' : 'Show password'}
-                  width={20}
+                  alt={isPasswordVisible ? 'Hide password' : 'Show password'}
                   height={20}
+                  width={20}
                 />
               </button>
             </div>
@@ -245,11 +244,11 @@ export default function RegisterPage() {
 
           <p className="text-center text-xs text-gray-400">
             By clicking on create account you agree to our{' '}
-            <Link href="/privacy" className="text-gray-600 underline">
+            <Link href="#" className="text-gray-600 underline">
               privacy policy
             </Link>{' '}
             and{' '}
-            <Link href="/terms" className="text-gray-600 underline">
+            <Link href="#" className="text-gray-600 underline">
               terms of use
             </Link>
           </p>
