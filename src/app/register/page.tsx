@@ -197,7 +197,7 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-manhattan-grey"
+                className="hover:text-manhattan-grey absolute top-1/2 right-3 -translate-y-1/2 text-gray-400"
               >
                 <Image
                   src={

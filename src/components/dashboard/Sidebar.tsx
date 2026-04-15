@@ -1,8 +1,7 @@
-'use client';
-
 import type { User } from '@/lib/api';
 
 import { useState } from 'react';
+
 import { cls } from '@/utils';
 
 import Image from 'next/image';
