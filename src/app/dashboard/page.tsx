@@ -107,7 +107,7 @@ export default function DashboardPage() {
       />
       <main className="flex-1 overflow-y-auto">
         {/* Top Bar */}
-        <header className="border-grey-hint border-b bg-white px-7 pt-4 pb-3">
+        <header className="border-grey-hint sticky top-0 right-0 left-0 z-20 border-b bg-white px-7 pt-4 pb-3">
           <div className="flex items-center justify-between">
             <div>
               <button
