@@ -31,12 +31,56 @@ async function request<T>(
   }
 }
 
+export const api = {
+  register: (payload: RegisterPayload) =>
+    request<AuthResponse>('/auth/register', {
+      body: JSON.stringify(payload),
+      method: 'POST'
+    }),
+
+  logIn: (payload: LoginPayload) =>
+    request<AuthResponse>('/auth/login', {
+      body: JSON.stringify(payload),
+      method: 'POST'
+    }),
+
+  getMe: (token: string) =>
+    request<{ user: User }>('/auth/me', {
+      headers: { Authorization: `Bearer ${token}` }
+    }),
+
+  forgotPassword: (email: string) =>
+    request<{ message: string; resetUrl?: string }>('/auth/forgot-password', {
+      body: JSON.stringify({ email }),
+      method: 'POST'
+    }),
+
+  resetPassword: (token: string, password: string) =>
+    request<{ message: string }>('/auth/reset-password', {
+      body: JSON.stringify({ token, password }),
+      method: 'POST'
+    }),
+
+  logOut: () => request('/auth/logout', { method: 'POST' }),
+
+  getDashboard: (token: string) =>
+    request('/dashboard', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+};
+
 export interface RegisterPayload {
   firstName: string;
   lastName: string;
   password: string;
   email: string;
   phone: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  token: string;
+  user: User;
 }
 
 export interface LoginPayload {
@@ -51,47 +95,3 @@ export interface User {
   phone: string;
   _id: string;
 }
-
-export interface AuthResponse {
-  message: string;
-  token: string;
-  user: User;
-}
-
-export const api = {
-  register: (payload: RegisterPayload) =>
-    request<AuthResponse>('/auth/register', {
-      body: JSON.stringify(payload),
-      method: 'POST'
-    }),
-
-  login: (payload: LoginPayload) =>
-    request<AuthResponse>('/auth/login', {
-      body: JSON.stringify(payload),
-      method: 'POST'
-    }),
-
-  getMe: (token: string) =>
-    request<{ user: User }>('/auth/me', {
-      headers: { Authorization: `Bearer ${token}` }
-    }),
-
-  forgotPassword: (email: string) =>
-    request<{ message: string; resetUrl?: string }>('/auth/forgot-password', {
-      method: 'POST',
-      body: JSON.stringify({ email })
-    }),
-
-  resetPassword: (token: string, password: string) =>
-    request<{ message: string }>('/auth/reset-password', {
-      method: 'POST',
-      body: JSON.stringify({ token, password })
-    }),
-
-  logout: () => request('/auth/logout', { method: 'POST' }),
-
-  getDashboard: (token: string) =>
-    request('/dashboard', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-};

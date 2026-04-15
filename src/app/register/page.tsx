@@ -27,7 +27,7 @@ export default function RegisterPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  const { user, login } = useAuth();
+  const { user, logIn } = useAuth();
 
   const router = useRouter();
 
@@ -57,7 +57,7 @@ export default function RegisterPage() {
     }
 
     if (result.data) {
-      login(result.data.token, result.data.user);
+      logIn(result.data.token, result.data.user);
       router.push('/dashboard');
     }
   };
@@ -71,7 +71,7 @@ export default function RegisterPage() {
         <h1 className="text-matte-black mb-2 text-[32px] font-bold">
           Create an account
         </h1>
-        <p className="text-manhattan-gray mb-8 text-sm leading-relaxed">
+        <p className="text-manhattan-grey mb-8 text-sm leading-relaxed">
           Sign up for Myafrimall and gain unlimited access to shipping to over
           300 countries from Nigeria. Do you already have an account?{' '}
           <Link href="/login" className="text-primary font-bold underline">
@@ -95,8 +95,8 @@ export default function RegisterPage() {
                 {...register('firstName')}
                 placeholder="John"
                 className={cls(
-                  'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
-                  'focus:border-primary placeholder:text-new-gray',
+                  'text-manhattan-grey rounded-lg border border-gray-200 px-4 py-3',
+                  'focus:border-primary placeholder:text-new-grey',
                   'placeholder:font-light focus:outline-none',
                   errors.firstName && 'border-red-400'
                 )}
@@ -116,8 +116,8 @@ export default function RegisterPage() {
                 {...register('lastName')}
                 placeholder="Doe"
                 className={cls(
-                  'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
-                  'focus:border-primary placeholder:text-new-gray',
+                  'text-manhattan-grey rounded-lg border border-gray-200 px-4 py-3',
+                  'focus:border-primary placeholder:text-new-grey',
                   'placeholder:font-light focus:outline-none',
                   errors.lastName && 'border-red-400'
                 )}
@@ -140,8 +140,8 @@ export default function RegisterPage() {
               {...register('email')}
               placeholder="user@example.com"
               className={cls(
-                'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
-                'focus:border-primary placeholder:text-new-gray',
+                'text-manhattan-grey rounded-lg border border-gray-200 px-4 py-3',
+                'focus:border-primary placeholder:text-new-grey',
                 'placeholder:font-light focus:outline-none',
                 errors.email && 'border-red-400'
               )}
@@ -156,7 +156,7 @@ export default function RegisterPage() {
               Phone Number
             </label>
             <div className="flex">
-              <span className="text-manhattan-gray inline-flex items-center rounded-l-lg border border-r-0 border-gray-200 bg-gray-50 px-3">
+              <span className="text-manhattan-grey inline-flex items-center rounded-l-lg border border-r-0 border-gray-200 bg-gray-50 px-3">
                 +234
               </span>
               <input
@@ -165,8 +165,8 @@ export default function RegisterPage() {
                 {...register('phone')}
                 placeholder="8012345678"
                 className={cls(
-                  'text-manhattan-gray w-full rounded-r-lg border border-gray-200 px-4 py-3',
-                  'focus:border-primary placeholder:text-new-gray',
+                  'text-manhattan-grey w-full rounded-r-lg border border-gray-200 px-4 py-3',
+                  'focus:border-primary placeholder:text-new-grey',
                   'placeholder:font-light focus:outline-none',
                   errors.phone && 'border-red-400'
                 )}
@@ -188,8 +188,8 @@ export default function RegisterPage() {
                 {...register('password')}
                 placeholder="Enter Password"
                 className={cls(
-                  'text-manhattan-gray w-full rounded-lg border border-gray-200',
-                  'focus:border-primary placeholder:text-new-gray px-4 py-3 pr-12',
+                  'text-manhattan-grey w-full rounded-lg border border-gray-200',
+                  'focus:border-primary placeholder:text-new-grey px-4 py-3 pr-12',
                   'placeholder:font-light focus:outline-none',
                   errors.password && 'border-red-400'
                 )}
@@ -197,7 +197,7 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-manhattan-grey"
               >
                 <Image
                   src={
@@ -227,7 +227,7 @@ export default function RegisterPage() {
               'Create account'
             )}
           </button>
-          <p className="text-manhattan-gray text-sm">
+          <p className="text-manhattan-grey text-sm">
             By clicking on create account you agree to our{' '}
             <Link
               rel="noopener noreferrer"

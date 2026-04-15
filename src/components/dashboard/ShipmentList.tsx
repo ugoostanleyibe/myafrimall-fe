@@ -5,14 +5,14 @@ import Image from 'next/image';
 import { cls } from '@/utils';
 
 interface Shipment {
+  processingTime: string;
   trackingId: string;
-  sender: string;
-  receiver: string;
-  pickUpFrom: string;
   deliveryTo: string;
+  pickUpFrom: string;
+  receiver: string;
+  sender: string;
   amount: number;
   status: string;
-  processingTime: string;
   paid: boolean;
 }
 
@@ -20,134 +20,128 @@ interface ShipmentListProps {
   shipments: Shipment[];
 }
 
+function NigerianFlag() {
+  return (
+    <Image src="/graphics/flag-ng.svg" height={18} width={18} alt="Flag" />
+  );
+}
+
 export function ShipmentList({ shipments }: ShipmentListProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'in transit':
-        return 'bg-green-100 text-green-700';
-      case 'delayed':
-        return 'bg-red-100 text-red-700';
-      case 'delivered':
-        return 'bg-blue-100 text-blue-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
-
-  const NigeriaFlag = () => (
-    <span className="inline-flex gap-0.5">
-      <span className="inline-block h-3 w-1 bg-green-600"></span>
-      <span className="inline-block h-3 w-1 border border-gray-200 bg-white"></span>
-      <span className="inline-block h-3 w-1 bg-green-600"></span>
-    </span>
-  );
-
   return (
-    <div className="flex flex-col gap-4">
+    <div className="mt-2 flex flex-col gap-2">
       {shipments.map((shipment, index) => (
         <div
           key={index}
-          className="overflow-hidden rounded-xl border border-gray-100 bg-white"
+          className="border-sweet-grey/50 flex flex-col rounded-[10px] border bg-white p-6"
         >
           {/* Header row - always visible */}
           <div
-            className="flex cursor-pointer items-center justify-between p-6"
+            className={cls(
+              'flex cursor-pointer items-center justify-between',
+              expandedIndex === index && 'pb-4'
+            )}
             onClick={() =>
               setExpandedIndex(expandedIndex === index ? null : index)
             }
           >
             <div className="grid flex-1 grid-cols-3 gap-4">
               <div>
-                <p className="text-xs text-gray-400">Tracking ID</p>
-                <p className="text-sm font-medium text-primary">
-                  {shipment.trackingId}
-                </p>
+                <p className="text-grey text-xs">Tracking ID</p>
+                <p className="text-primary mt-2">{shipment.trackingId}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-400">Sender</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {shipment.sender}
-                </p>
+                <p className="text-grey text-xs">Sender</p>
+                <p className="text-strong-grey mt-2">{shipment.sender}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-400">Receiver</p>
-                <p className="text-sm font-medium text-gray-900">
-                  {shipment.receiver}
-                </p>
+                <p className="text-grey text-xs">Receiver</p>
+                <p className="text-strong-grey mt-2">{shipment.receiver}</p>
               </div>
             </div>
             <Image
-              src="/graphics/chevron-down.svg"
-              alt=""
-              width={20}
-              height={20}
+              alt={
+                expandedIndex === index ? 'Collapse details' : 'Expand details'
+              }
+              src="/graphics/caret-up.svg"
               className={cls(
-                'text-gray-400 transition-transform',
-                expandedIndex === index && 'rotate-180'
+                expandedIndex !== index && 'rotate-180',
+                'text-gray-400 transition-transform lg:ml-70'
               )}
+              height={24}
+              width={24}
             />
           </div>
-
           {/* Expanded details */}
           {expandedIndex === index && (
-            <div className="border-t border-gray-50 px-6 pb-6">
-              <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-                <div>
-                  <p className="text-xs text-gray-400">Pick Up From</p>
-                  <p className="mt-1 flex items-center gap-1.5 text-sm text-gray-900">
-                    <NigeriaFlag />
-                    {shipment.pickUpFrom}
+            <div className="border-sweet-grey/50 flex flex-col gap-6 border-t-[0.5px] pt-6">
+              <div className="border-sweet-grey/50 grid grid-cols-2 gap-4 border-b-[0.5px] py-6 pt-2 md:grid-cols-4 lg:flex lg:justify-between">
+                <div className="flex flex-col gap-2">
+                  <p className="text-grey text-xs">Pick Up From</p>
+                  <div className="text-matte-black flex w-fit flex-row-reverse items-center gap-2 text-sm">
+                    <span>{shipment.pickUpFrom}</span>
+                    <NigerianFlag />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <p className="text-grey text-xs">Delivery To</p>
+                  <div className="text-matte-black flex w-fit flex-row-reverse items-center gap-2 text-sm">
+                    <span>{shipment.deliveryTo}</span>
+                    <NigerianFlag />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <p className="text-grey text-xs">Amount</p>
+                  <p className="text-matte-black">
+                    ₦{shipment.amount.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-400">Delivery To</p>
-                  <p className="mt-1 flex items-center gap-1.5 text-sm text-gray-900">
-                    <NigeriaFlag />
-                    {shipment.deliveryTo}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">Amount</p>
-                  <p className="mt-1 text-sm font-bold text-gray-900">
-                    N{shipment.amount.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">Status</p>
-                  <span
+                  <p className="text-grey text-xs">Status</p>
+                  <p
                     className={cls(
-                      'mt-1 inline-block rounded-full px-3 py-1 text-xs font-medium',
-                      getStatusColor(shipment.status)
+                      'mt-2 flex h-8 w-18 rounded-lg text-xs font-medium',
+                      shipment.status === 'In Transit' &&
+                        'bg-[#FFEAD9] text-[#CB854B]',
+                      shipment.status === 'Cancelled' &&
+                        'bg-[#FFC0C0] text-[#370000]',
+                      shipment.status === 'Delayed' &&
+                        'bg-[#C0FBFF] text-[#003337]'
                     )}
                   >
-                    {shipment.status}
-                  </span>
+                    <span className="m-auto">{shipment.status}</span>
+                  </p>
                 </div>
               </div>
-
-              <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Image src="/graphics/clock.svg" alt="" width={16} height={16} />
-                  <span>Processing time</span>
-                  <span className="font-medium text-gray-900">
-                    {shipment.processingTime}
-                  </span>
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-2">
+                  <p className="text-grey text-xs">Processing Time</p>
+                  <div className="text-strong-grey flex flex-row-reverse items-center gap-2">
+                    <span>{shipment.processingTime}</span>
+                    <Image
+                      src="/graphics/clock.svg"
+                      height={24}
+                      width={24}
+                      alt="Time"
+                    />
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <button className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50">
+                <div className="flex flex-row-reverse items-center gap-2">
+                  <button
+                    disabled={shipment.paid}
+                    className={cls(
+                      'h-8 w-22.5 rounded-lg text-center text-xs font-semibold',
+                      shipment.paid
+                        ? 'bg-subtle-white text-grey cursor-not-allowed!'
+                        : 'bg-american hover:bg-comet text-white'
+                    )}
+                  >
+                    {shipment.paid ? 'Paid' : 'Pay Now'}
+                  </button>
+                  <button className="text-comet border-comet h-8 w-22.5 rounded-lg border text-center text-xs font-semibold hover:bg-gray-100">
                     View More
                   </button>
-                  {shipment.paid ? (
-                    <span className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-400">
-                      Paid
-                    </span>
-                  ) : (
-                    <button className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800">
-                      Pay Now
-                    </button>
-                  )}
                 </div>
               </div>
             </div>

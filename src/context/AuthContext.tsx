@@ -22,9 +22,9 @@ function getStoredUser(): User | null {
 }
 
 interface AuthContextType {
-  login: (token: string, user: User) => void;
+  logIn: (token: string, user: User) => void;
   token: string | null;
-  logout: () => void;
+  logOut: () => void;
   isLoading: boolean;
   user: User | null;
 }
@@ -32,29 +32,34 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(getStoredUser);
   const [token, setToken] = useState<string | null>(getStoredToken);
-  const isLoading = false;
+  const [user, setUser] = useState<User | null>(getStoredUser);
+
   const router = useRouter();
 
-  const login = useCallback((newToken: string, newUser: User) => {
+  const isLoading = false;
+
+  const logIn = useCallback((newToken: string, newUser: User) => {
+    localStorage.setItem('user', JSON.stringify(newUser));
+    localStorage.setItem('token', newToken);
     setToken(newToken);
     setUser(newUser);
-    localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
   }, []);
 
-  const logout = useCallback(async () => {
-    await api.logout();
-    setToken(null);
-    setUser(null);
+  const logOut = useCallback(async () => {
+    await api.logOut();
+
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+
+    setToken(null);
+    setUser(null);
+
     router.push('/login');
   }, [router]);
 
   return (
-    <AuthContext.Provider value={{ user, token, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoading, logOut, logIn }}>
       {children}
     </AuthContext.Provider>
   );

@@ -24,7 +24,7 @@ export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [serverError, setServerError] = useState('');
 
-  const { user, login } = useAuth();
+  const { user, logIn } = useAuth();
 
   const router = useRouter();
 
@@ -45,7 +45,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormData) => {
     setServerError('');
 
-    const result = await api.login(data);
+    const result = await api.logIn(data);
 
     if (result.error) {
       setServerError(result.error);
@@ -53,7 +53,7 @@ export default function LoginPage() {
     }
 
     if (result.data) {
-      login(result.data.token, result.data.user);
+      logIn(result.data.token, result.data.user);
       router.push('/dashboard');
     }
   };
@@ -67,7 +67,7 @@ export default function LoginPage() {
         <h1 className="text-matte-black mb-2 text-[32px] font-bold">
           Sign in to your account
         </h1>
-        <p className="text-manhattan-gray mb-8 text-sm leading-relaxed">
+        <p className="text-manhattan-grey mb-8 text-sm leading-relaxed">
           Log in to MyAfriMall to enjoy seamless shipping to over 300 countries
           right from Nigeria.. Don&apos;t have an account yet?{' '}
           <Link href="/register" className="text-primary font-bold underline">
@@ -91,8 +91,8 @@ export default function LoginPage() {
               {...register('email')}
               placeholder="user@example.com"
               className={cls(
-                'text-manhattan-gray rounded-lg border border-gray-200 px-4 py-3',
-                'focus:border-primary placeholder:text-new-gray',
+                'text-manhattan-grey rounded-lg border border-gray-200 px-4 py-3',
+                'focus:border-primary placeholder:text-new-grey',
                 'placeholder:font-light focus:outline-none',
                 errors.email && 'border-red-400'
               )}
@@ -113,15 +113,15 @@ export default function LoginPage() {
                 type={isPasswordVisible ? 'text' : 'password'}
                 placeholder="Enter Password"
                 className={cls(
-                  'text-manhattan-gray w-full rounded-lg border border-gray-200',
-                  'focus:border-primary placeholder:text-new-gray px-4 py-3 pr-12',
+                  'text-manhattan-grey w-full rounded-lg border border-gray-200',
+                  'focus:border-primary placeholder:text-new-grey px-4 py-3 pr-12',
                   'placeholder:font-light focus:outline-none',
                   errors.password && 'border-red-400'
                 )}
               />
               <button
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 hover:text-manhattan-grey"
                 type="button"
               >
                 <Image

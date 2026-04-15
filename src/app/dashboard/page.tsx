@@ -1,14 +1,16 @@
 'use client';
 
 import { GrowthChart } from '@/components/dashboard/GrowthChart';
+import { LogoutModal } from '@/components/dashboard/LogoutModal';
 import { OverviewSection } from '@/components/dashboard/OverviewSection';
 import { ShipmentList } from '@/components/dashboard/ShipmentList';
 import { Sidebar } from '@/components/dashboard/Sidebar';
 import { useAuth } from '@/context/AuthContext';
 import { api } from '@/lib/api';
+import { cls } from '@/utils';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ClockLoader } from 'react-spinners';
 
 interface DashboardData {
@@ -18,7 +20,6 @@ interface DashboardData {
     totalImport: { count: number; percentage: number; vsLastMonth: number };
     balance: number;
   };
-  companyGrowth: { month: number; value: number }[];
   recentShipments: {
     processingTime: string;
     trackingId: string;
@@ -33,228 +34,195 @@ interface DashboardData {
 }
 
 export default function DashboardPage() {
-  const { user, token, isLoading, logout } = useAuth();
-  const router = useRouter();
-
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isPeriodDropdownOpen, setIsPeriodDropdownOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const { user, token, isLoading, logOut } = useAuth();
+
+  const [period, setPeriod] = useState('This Month');
+
+  const periodRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    function handleClickOutside(e: MouseEvent) {
+      if (periodRef.current && !periodRef.current.contains(e.target as Node)) {
+        setIsPeriodDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && user === null) {
       router.push('/login');
       return;
     }
 
-    if (!token) return;
+    if (token !== null) {
+      let isCancelled = false;
 
-    let isCancelled = false;
+      api.getDashboard(token).then((result) => {
+        if (!isCancelled && result.data) {
+          setDashboardData(result.data as DashboardData);
+        }
+      });
 
-    api.getDashboard(token).then((result) => {
-      if (!isCancelled && result.data) {
-        setDashboardData(result.data as DashboardData);
-      }
-    });
-
-    return () => {
-      isCancelled = true;
-    };
+      return () => {
+        isCancelled = true;
+      };
+    }
   }, [user, token, isLoading, router]);
 
-  if (isLoading || !user) {
+  if (isLoading || user === null) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <ClockLoader color="#5B5EA6" size={50} />
+        <ClockLoader color="#5A65AB" size={50} />
       </div>
     );
   }
 
   return (
     <div className="flex h-screen bg-gray-50">
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onCancel={() => setIsLogoutModalOpen(false)}
+        onConfirm={() => {
+          setIsLogoutModalOpen(false);
+          logOut();
+        }}
+      />
       <Sidebar
+        onLogOut={() => setIsLogoutModalOpen(true)}
+        onClose={() => setIsSidebarOpen(false)}
+        isOpen={isSidebarOpen}
         user={user}
-        onLogout={logout}
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
       />
       <main className="flex-1 overflow-y-auto">
         {/* Top Bar */}
-        <header className="border-b border-gray-100 bg-white px-6 py-4">
+        <header className="border-grey-hint border-b bg-white px-7 pt-4 pb-3">
           <div className="flex items-center justify-between">
             <div>
               <button
-                onClick={() => setSidebarOpen(true)}
+                onClick={() => setIsSidebarOpen(true)}
                 className="mr-4 lg:hidden"
               >
                 <Image
                   src="/graphics/menu.svg"
-                  alt="Menu"
-                  width={24}
                   height={24}
+                  width={24}
+                  alt="Menu"
                 />
               </button>
-              <h1 className="inline text-lg font-bold text-gray-900">
+              <h1 className="text-matte-black inline text-xl font-bold">
                 Invite &amp; Earn
               </h1>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="text-zen-grey mt-1 text-xs leading-5 md:max-w-113">
                 Keep track of your addresses, location updates. Edit, Delete,
                 Update and see all your saved addresses
               </p>
             </div>
           </div>
         </header>
-        <div className="p-6">
+        <div className="px-7 py-5">
           {/* Hero Banner */}
-          <div className="bg-dark-gnmetal-grey relative mb-6 overflow-hidden rounded-xl p-8 text-white md:min-h-45">
-            <div className="relative z-10">
-              <h2 className="text-2xl leading-tight font-bold md:text-3xl">
-                KEEP UP WITH YOUR
-                <br />
-                BUSINESS NEEDS
-              </h2>
-            </div>
-            {/* Decorative packages illustration */}
-            <div className="absolute top-2 right-4 h-32 w-32 opacity-90 md:top-0 md:right-8 md:h-40 md:w-40">
-              <svg
-                viewBox="0 0 120 120"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-full w-full"
-              >
-                {/* Globe */}
-                <circle cx="65" cy="45" r="30" fill="#C4A35A" opacity="0.3" />
-                <ellipse
-                  cx="65"
-                  cy="45"
-                  rx="30"
-                  ry="30"
-                  stroke="#C4A35A"
-                  strokeWidth="1"
-                  opacity="0.5"
+          <div className="bg-comet relative overflow-hidden rounded-lg md:h-61">
+            {/* Background image */}
+            <Image
+              alt="Gradient"
+              src="/images/grey-gradient.jpg"
+              className="object-cover mix-blend-multiply"
+              priority
+              fill
+            />
+            <div className="flex items-center justify-between px-9">
+              <div className="md:mt-11">
+                <h2 className="text-2xl leading-tight font-black -tracking-[2%] text-white md:text-[42.48px] md:leading-11">
+                  <span>KEEP UP WITH YOUR </span>
+                  <br className="hidden md:block" />
+                  <span>BUSINESS NEEDS</span>
+                </h2>
+              </div>
+              <div className="hidden sm:block">
+                <Image
+                  src="/images/earth-boxes.png"
+                  alt="Global shipping"
+                  className="object-cover"
+                  height={280}
+                  width={280}
                 />
-                <path
-                  d="M65 15 C55 25, 55 65, 65 75"
-                  stroke="#C4A35A"
-                  strokeWidth="0.8"
-                  opacity="0.4"
-                />
-                <path
-                  d="M65 15 C75 25, 75 65, 65 75"
-                  stroke="#C4A35A"
-                  strokeWidth="0.8"
-                  opacity="0.4"
-                />
-                <line
-                  x1="35"
-                  y1="45"
-                  x2="95"
-                  y2="45"
-                  stroke="#C4A35A"
-                  strokeWidth="0.8"
-                  opacity="0.4"
-                />
-                <line
-                  x1="38"
-                  y1="32"
-                  x2="92"
-                  y2="32"
-                  stroke="#C4A35A"
-                  strokeWidth="0.8"
-                  opacity="0.3"
-                />
-                <line
-                  x1="38"
-                  y1="58"
-                  x2="92"
-                  y2="58"
-                  stroke="#C4A35A"
-                  strokeWidth="0.8"
-                  opacity="0.3"
-                />
-                {/* Boxes */}
-                <rect
-                  x="45"
-                  y="65"
-                  width="25"
-                  height="22"
-                  rx="2"
-                  fill="#C4A35A"
-                  opacity="0.8"
-                />
-                <rect
-                  x="48"
-                  y="68"
-                  width="19"
-                  height="3"
-                  rx="1"
-                  fill="#D4B36A"
-                />
-                <rect
-                  x="70"
-                  y="58"
-                  width="28"
-                  height="25"
-                  rx="2"
-                  fill="#D4B36A"
-                  opacity="0.9"
-                />
-                <rect
-                  x="73"
-                  y="61"
-                  width="22"
-                  height="3"
-                  rx="1"
-                  fill="#E4C37A"
-                />
-                <rect
-                  x="55"
-                  y="50"
-                  width="20"
-                  height="18"
-                  rx="2"
-                  fill="#B4934A"
-                  opacity="0.7"
-                />
-                <rect
-                  x="58"
-                  y="53"
-                  width="14"
-                  height="3"
-                  rx="1"
-                  fill="#C4A35A"
-                />
-              </svg>
-            </div>
-            <div className="relative z-10 mt-6 flex justify-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-white/40"></span>
-              <span className="h-2 w-2 rounded-full bg-white"></span>
-              <span className="h-2 w-2 rounded-full bg-white/40"></span>
+              </div>
             </div>
           </div>
+          {/* Three Dots */}
+          <div className="mt-2.5 flex justify-center gap-3">
+            <span className="bg-light-grey h-3 w-3 rounded-full"></span>
+            <span className="bg-american h-3 w-3 rounded-full"></span>
+            <span className="bg-light-grey h-3 w-3 rounded-full"></span>
+          </div>
           {/* Overview */}
-          <div className="mb-6 flex items-center justify-between">
-            <h3 className="text-lg font-bold text-gray-900">Overview</h3>
-            <select className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
-              <option>This Month</option>
-              <option>Last Month</option>
-              <option>This Year</option>
-            </select>
+          <div className="mt-7 flex items-center justify-between">
+            <h3 className="text-matte-black text-2xl font-medium">Overview</h3>
+            <div ref={periodRef} className="relative">
+              <button
+                onClick={() => setIsPeriodDropdownOpen(!isPeriodDropdownOpen)}
+                className="text-zen-grey border-grey-hint flex w-29 cursor-pointer items-center justify-center gap-1 rounded-lg border py-2 text-sm font-medium"
+              >
+                <span>{period}</span>
+                <Image
+                  alt="Caret"
+                  src="/graphics/chevron-down.svg"
+                  className={cls(
+                    isPeriodDropdownOpen && 'rotate-180',
+                    'transition-transform'
+                  )}
+                  height={16}
+                  width={16}
+                />
+              </button>
+              {isPeriodDropdownOpen && (
+                <div className="border-grey-hint absolute right-0 w-29 overflow-hidden rounded-lg border bg-white shadow-md">
+                  {['This Month', 'Last Month', 'This Year'].map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => {
+                        setIsPeriodDropdownOpen(false);
+                        setPeriod(option);
+                      }}
+                      className={cls(
+                        'block w-full py-2 text-center text-sm font-medium whitespace-nowrap hover:bg-gray-100',
+                        option !== period
+                          ? 'text-manhattan-grey'
+                          : 'text-primary'
+                      )}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           {dashboardData && (
             <>
               <OverviewSection overview={dashboardData.overview} />
               {/* Recent Shipment Section */}
-              <div className="mt-8 mb-6 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-gray-900">
+              <div className="mt-10 flex items-center justify-between">
+                <h3 className="text-matte-black text-2xl font-medium">
                   Recent shipment
                 </h3>
-                <button className="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50">
+                <button className="text-zen-grey border-grey-hint h-8.5 w-17 rounded-lg border text-sm hover:bg-gray-100">
                   See All
                 </button>
               </div>
-              <GrowthChart data={dashboardData.companyGrowth} />
+              <GrowthChart />
               <ShipmentList shipments={dashboardData.recentShipments} />
             </>
           )}

@@ -1,6 +1,6 @@
 import { type Metadata } from 'next';
 
-import { DM_Sans, Montserrat } from 'next/font/google';
+import { DM_Sans, Manrope, Montserrat } from 'next/font/google';
 
 import { Providers } from '@/context/Providers';
 
@@ -12,14 +12,21 @@ const dmSans = DM_Sans({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   style: ['normal', 'italic'],
   variable: '--font-dm-sans',
-  subsets: ['latin'],
+  subsets: ['latin']
 });
 
 const montserrat = Montserrat({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   variable: '--font-montserrat',
   style: ['normal', 'italic'],
+  subsets: ['latin']
+});
+
+const manrope = Manrope({
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
+  variable: '--font-manrope',
   subsets: ['latin'],
+  style: ['normal']
 });
 
 export const metadata: Metadata = {
@@ -32,7 +39,7 @@ export default async function RootLayout({ children }: LayoutProps) {
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${montserrat.variable}`}
+      className={`${dmSans.variable} ${manrope.variable} ${montserrat.variable}`}
       suppressHydrationWarning
     >
       <body className="font-dm-sans bg-white">

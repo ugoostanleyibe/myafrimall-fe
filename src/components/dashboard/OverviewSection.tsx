@@ -4,96 +4,112 @@ import Image from 'next/image';
 
 interface OverviewProps {
   overview: {
-    balance: number;
     totalShipment: { count: number; percentage: number; vsLastMonth: number };
     totalExports: { count: number; percentage: number; vsLastMonth: number };
     totalImport: { count: number; percentage: number; vsLastMonth: number };
+    balance: number;
   };
 }
 
-export function OverviewSection({ overview }: OverviewProps) {
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(amount);
-  };
-
+function StatCard({
+  vsLastMonth,
+  percentage,
+  label,
+  count,
+  icon
+}: {
+  icon: React.ReactNode;
+  vsLastMonth: number;
+  percentage: number;
+  count: number;
+  label: string;
+}) {
   return (
-    <div className="grid gap-4 lg:grid-cols-4">
-      {/* Balance Card */}
-      <div className="rounded-xl bg-primary p-6 text-white">
-        <p className="text-sm opacity-80">Your Balance</p>
-        <p className="mt-2 text-2xl font-bold">N{formatCurrency(overview.balance)}</p>
-        <button className="mt-4 rounded-lg bg-white px-4 py-2 text-sm font-medium text-primary">
-          Fund Wallet
-        </button>
+    <div className="flex flex-col justify-center rounded-lg bg-white px-4">
+      <div className="flex w-fit flex-row-reverse items-center gap-2">
+        <span className="text-manhattan-grey text-xs">{label}</span>
+        {icon}
       </div>
-
-      {/* Stats Cards */}
-      <StatCard
-        label="Total Shipment"
-        count={overview.totalShipment.count}
-        percentage={overview.totalShipment.percentage}
-        vsLastMonth={overview.totalShipment.vsLastMonth}
-        icon={
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100">
-            <Image src="/graphics/cube.svg" alt="" width={20} height={20} className="text-orange-500" />
-          </div>
-        }
-      />
-      <StatCard
-        label="Total Exports"
-        count={overview.totalExports.count}
-        percentage={overview.totalExports.percentage}
-        vsLastMonth={overview.totalExports.vsLastMonth}
-        icon={
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-            <Image src="/graphics/arrow-up.svg" alt="" width={20} height={20} className="text-green-600" />
-          </div>
-        }
-      />
-      <StatCard
-        label="Total Import"
-        count={overview.totalImport.count}
-        percentage={overview.totalImport.percentage}
-        vsLastMonth={overview.totalImport.vsLastMonth}
-        icon={
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
-            <Image src="/graphics/arrow-down.svg" alt="" width={20} height={20} className="text-blue-500" />
-          </div>
-        }
-      />
+      <div className="flex items-center gap-2">
+        <span className="font-montserrat text-tuatara text-2xl leading-11 font-medium">
+          {count}
+        </span>
+        <div className="text-digital-green flex items-center gap-0.5 text-xs">
+          <Image
+            src="/graphics/mini-arrow-up.svg"
+            alt="Arrow up"
+            height={12}
+            width={12}
+          />
+          <span>{percentage}%</span>
+        </div>
+      </div>
+      <p className="font-montserrat leading-4">
+        <span className="text-matte-grey text-[8px]">Vs last month: </span>
+        <span className="text-strong-grey text-[12px] font-medium">
+          {vsLastMonth}
+        </span>
+      </p>
     </div>
   );
 }
 
-function StatCard({
-  label,
-  count,
-  percentage,
-  vsLastMonth,
-  icon
-}: {
-  label: string;
-  count: number;
-  percentage: number;
-  vsLastMonth: number;
-  icon: React.ReactNode;
-}) {
+export function OverviewSection({ overview }: OverviewProps) {
   return (
-    <div className="rounded-xl border border-gray-100 bg-white p-6">
-      <div className="flex items-center justify-between">
-        {icon}
-        <span className="text-sm text-gray-500">{label}</span>
+    <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:gap-6">
+      {/* Balance Card */}
+      <div className="bg-primary border-grey-hint flex h-41 w-full flex-col justify-center rounded-lg border pl-6 lg:w-md">
+        <p className="text-xs font-light text-white/70">Your Balance</p>
+        <p className="mt-2 text-2xl font-black -tracking-[2%] text-white/90">
+          ₦
+          {new Intl.NumberFormat('en-NG', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(overview.balance)}
+        </p>
+        <button className="text-primary mt-6 h-8 w-25 rounded-lg bg-white text-center text-xs font-medium">
+          Fund Wallet
+        </button>
       </div>
-      <div className="mt-4 flex items-baseline gap-2">
-        <span className="text-3xl font-bold text-gray-900">{count}</span>
-        <span className="text-sm font-medium text-green-500">+{percentage}%</span>
+      <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-3">
+        {/* Stats Cards */}
+        <StatCard
+          {...overview.totalShipment}
+          label="Total Shipment"
+          icon={
+            <Image
+              src="/graphics/delivery-truck.svg"
+              alt="Delivery Truck"
+              height={40}
+              width={40}
+            />
+          }
+        />
+        <StatCard
+          {...overview.totalExports}
+          label="Total Exports"
+          icon={
+            <Image
+              src="/graphics/arrow-up.svg"
+              alt="Arrow Up"
+              height={40}
+              width={40}
+            />
+          }
+        />
+        <StatCard
+          {...overview.totalImport}
+          label="Total Import"
+          icon={
+            <Image
+              src="/graphics/arrow-down.svg"
+              alt="Arrow Down"
+              height={40}
+              width={40}
+            />
+          }
+        />
       </div>
-      <p className="mt-1 text-xs text-gray-400">
-        Vs last month: <span className="font-medium text-gray-600">{vsLastMonth}</span>
-      </p>
     </div>
   );
 }
